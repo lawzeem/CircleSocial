@@ -1,0 +1,10 @@
+version: '3'
+services:
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./cse312:/cse312
+    ports:
+      - 8000:8000
