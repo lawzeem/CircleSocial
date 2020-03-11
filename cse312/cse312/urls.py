@@ -22,4 +22,5 @@ urlpatterns = [
     path('signup/', include('cse312.signup.urls')),
     path('friends/', include('cse312.friends.urls')),
     path('message/', include('cse312.message.urls')),
+    path('profile/', include('cse312.profile.urls')),
 ]
