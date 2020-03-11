@@ -1,11 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>Profile</title>
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -72,6 +72,8 @@
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
   </body>
   </html>
