@@ -25,7 +25,7 @@ SECRET_KEY = 'bzkblhhoeubiqnn@e2=i_%r3=xt-n)ftsz2z^(+mopc$tx^*ca'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cse312.signup',
     'cse312.friends',
     'cse312.message',
+    'cse312.profile',
 ]
 
 MIDDLEWARE = [
