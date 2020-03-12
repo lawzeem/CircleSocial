@@ -23,4 +23,5 @@ urlpatterns = [
     path('friends/', include('cse312.friends.urls')),
     path('message/', include('cse312.message.urls')),
     path('profile/', include('cse312.profile.urls')),
+    path('feed/', include('cse312.feed.urls')),
 ]
