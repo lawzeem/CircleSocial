@@ -14,7 +14,7 @@
 <body>
   <nav class="indigo darken-4" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">
+      <a id="logo-container" href="{% url 'showFeed' %}" class="brand-logo">
         <!-- <span style="font-family: tahoma">
           <span style="color:red">C</span>
           <span style="color:violet">i</span>
@@ -31,7 +31,7 @@
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="{% url 'showSignup' %}">Sign-up</a></li>
+        <li><a href="{% url 'showSignup' %}">Signup</a></li>
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="row center">
-          <a href="{% url 'showFriends' %}" id="button" class="btn-large waves-effect waves-light blue">Login</a>
+          <a href="{% url 'showFeed' %}" id="button" class="btn-large waves-effect waves-light blue">Login</a>
         </div>
         <div class="row center">
           <a href="{% url 'showSignup' %}" id="button" class="btn-small waves-effect waves-light">Signup</a>
