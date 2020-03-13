@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cse312.friends',
     'cse312.message',
     'cse312.profile',
+    'cse312.feed',
 ]
 
 MIDDLEWARE = [

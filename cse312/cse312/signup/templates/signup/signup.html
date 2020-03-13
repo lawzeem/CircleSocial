@@ -13,7 +13,7 @@
 </head>
 <body>
   <nav class="indigo darken-4" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Circles</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="{% url 'showFeed' %}" class="brand-logo">Circles</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="{% url 'showLogin' %}">Login</a></li>
       </ul>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="row center">
-          <a href="{% url 'showFriends' %}" id="button" class="btn-large waves-effect waves-light blue">Sign Up</a>
+          <a href="{% url 'showFeed' %}" id="button" class="btn-large waves-effect waves-light blue">Sign Up</a>
         </div>
       <br><br>
     </div>
