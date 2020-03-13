@@ -21,8 +21,8 @@ For Testing :
 - And then open localhost:8000 on your browser.
 
 For Production:
-- To Build the container : "sudo docker build -t <name> ."
-- To run the container : "sudo docker container run --publish 8000:8000 --detach <name>"
+- To Build the container : "sudo docker build -t 'name' ."
+- To run the container : "sudo docker container run --publish 8000:8000 --detach 'name'"
 - Open a browser and go to localhost:8000
 
 ### Project Description ###
