@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cse312.message',
     'cse312.profile',
     'cse312.feed',
+    'cse312.users',
 ]
 
 MIDDLEWARE = [
