@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'cse312.base',
-    'cse312.login',
-    'cse312.signup',
     'cse312.friends',
     'cse312.message',
     'cse312.profile',
@@ -89,6 +87,8 @@ DATABASES = {
     }
 }
 
+# Use a custom user model.
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -133,3 +133,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOGIN_URL = 'users:log-in'
+LOGIN_REDIRECT_URL = 'showProfile'
