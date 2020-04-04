@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'cse312.base',
     'cse312.login',
     'cse312.signup',
     'cse312.friends',
