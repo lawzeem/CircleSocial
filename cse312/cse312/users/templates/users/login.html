@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="section no-pad-bot" id="index-banner">
+  <div class="container row">
+    <br>
+    <!-- <div class="card row col m8 offset-m2 s12"> -->
+      <br>
+      <form class="card row col m8 offset-m2 s12" method="post">
+        <h1 class="header center black-text">Login</h1>
+            {% csrf_token %}
+
+            {% if form_errors %}
+                <div class="row center notification error">
+                    {{ form_errors }}
+                </div>
+            {% endif %}
+
+            <div>
+                <div class="row">
+                  <div class="row center col s12 m8 offset-m2">
+                    {{ form.username }}
+                    {{ form.username.label_tag }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="row center col s12 m8 offset-m2">
+                    {{ form.password }}
+                    {{ form.password.label_tag }}
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 center">
+                        <button class="btn-large waves-effect waves-light">
+                            Log in
+                        </button>
+                    </div>
+                </div>
+                <div class="row center">
+                  <a href="{% url 'users:signup' %}" id="button" class="btn-small waves-effect waves-light">Signup</a>
+                </div>
+            </div>
+        </form>
+
+
+
+
+
+
+
+
+
+
+      <!-- <div class="row">
+        <div class="row center col s12 m8 offset-m2">
+          {{ form.username }}
+          {{ form.username.label_tag }}
+        </div>
+
+        <div class="row center col s12 m8 offset-m2">
+          {{ form.password }}
+          {{ form.password.label_tag }}
+        </div>
+      </div>
+      <div class="row center">
+        <a href="{% url 'showFeed' %}" id="button" class="btn-large waves-effect waves-light blue">Login</a>
+      </div>
+      <div class="row center">
+        <a href="{% url 'users:signup' %}" id="button" class="btn-small waves-effect waves-light">Signup</a>
+      </div> -->
+      <br><br>
+    <!-- </div> -->
+  </div>
+</div>
+{% endblock %}
