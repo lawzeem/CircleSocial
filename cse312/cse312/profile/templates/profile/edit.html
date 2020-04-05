@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <br><br>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="row center col s12 m8 offset-m2">
+          {{ form.as_p }}
+        </div>
+        <button class="row center" type="submit" name="button">Save</button>
+      </div>
+        <!-- <div>{{ form.bio }}</div> -->
+    </form>
+    <!-- <div id= "pic_pane" class="col s12 m3 offset-m1">
+      <div class="row">
+        <h3 class="white-text col s10 m10 center offset-s1">{{ user.get_full_name }}</h3>
+        <img src="https://via.placeholder.com/250" alt="profile picture" class= "circle responsive-img center offset-s2 col s8 m10">
+        <h5 class="white-text center offset-s2 col s8 m10">@{{ user.get_user_name }}</h5>
+        <a class="btn-large waves-effect waves-light blue offset-s4 offset-m2 col s4 m6">Follow</a>
+      </div>
+    </div>
+    <div id= "bio_pane" class="col s12 m8">
+      <h5 class="white-text center offset-s2 col s8 m10">Insert bio here.</h5>
+    </div> -->
+  </div>
+{% endblock %}

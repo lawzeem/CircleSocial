@@ -11,12 +11,16 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **kwargs):
+        kwargs.setdefault('is_staff', False)
         kwargs.setdefault('is_superuser', False)
         return self._create_user(email, password, **kwargs)
 
     def create_superuser(self, email, password, **kwargs):
+        kwargs.setdefault('is_staff', True)
         kwargs.setdefault('is_superuser', True)
 
+        if kwargs.get('is_staff') is not True:
+            raise ValueError('Superusers must have is_staff=True')
         if kwargs.get('is_superuser') is not True:
             raise ValueError('Superusers must have is_superuser=True')
 
@@ -27,12 +31,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField('first name', max_length=50)
     last_name = models.CharField('last name', max_length=50)
     user_name = models.CharField('user name', max_length=50, unique=True)
-    is_complete = models.BooleanField(
-        'complete',
+    is_staff = models.BooleanField(
+        'staff status',
         default=False,
-        help_text=(
-            'Checks to see if the user profile is complete. '
-        ),
+        help_text='Designates whether the user can log into the admin site.',
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
 

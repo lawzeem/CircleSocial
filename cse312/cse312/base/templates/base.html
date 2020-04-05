@@ -19,11 +19,27 @@
         Circles
       </a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="{% url 'users:signup' %}">Signup</a></li>
+        <li><a href="{% url 'showFeed' %}">Feed</a></li>
+        {% if user.is_authenticated %}
+          {% block navfull %}{% endblock %}
+          <li><a href="{% url 'showProfile' %}">My Profile</a></li>
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
+        {% else %}
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
+          <li><a href="{% url 'users:signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="{% url 'users:signup' %}">Signup</a></li>
+        <li><a href="{% url 'showFeed' %}">Feed</a></li>
+        {% if user.is_authenticated %}
+          {% block navmob %}{% endblock %}
+          <li><a href="{% url 'showProfile' %}">My Profile</a></li>
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
+        {% else %}
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
+          <li><a href="{% url 'users:signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
