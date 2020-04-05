@@ -18,7 +18,7 @@ def EditProfileView(request):
             form.save()
             return redirect('showProfile')
     else:
-        # profile = Profile.objects.get(user=request.user.profile)
+        user = request.user
         form = ProfileEditForm(instance = request.user.profile)
-        args = {'form':form}
+        args = {'form':form, 'user':user}
         return render(request, 'profile/edit.html', args)
