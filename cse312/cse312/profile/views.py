@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm
 from .models import Profile
 
+@login_required
 def showProfile(request):
     user = request.user
     return render(request, 'profile/profile.html', {'user':user});
 
+@login_required
 def editProfile(request):
     user = request.user
     return render(request, 'profile/edit.html', {'user' : user});
 
+@login_required
 def EditProfileView(request):
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, request.FILES, instance = request.user.profile)
