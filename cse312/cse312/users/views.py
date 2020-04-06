@@ -27,9 +27,6 @@ class LogOutView(BaseLogOutView):
     next_page = 'showFeed'
 
 
-def login_exclude(request):
-    return request.user.is_authenticated
-
 class CreateAccountView(FormErrorsContextMixin, UserPassesTestMixin, CreateView):
     template_name = 'users/signup.html'
     form_class = UserCreationForm
