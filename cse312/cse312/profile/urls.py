@@ -1,4 +1,4 @@
-from .views import showProfile, editProfile, EditProfileView
+from .views import showProfile, EditProfileView
 from django.urls import path
 
 urlpatterns = [
