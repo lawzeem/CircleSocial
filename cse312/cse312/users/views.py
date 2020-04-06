@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView as BaseLogInView, LogoutView as BaseLogOutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import AuthenticationForm, UserCreationForm
 
 class FormErrorsContextMixin:
@@ -27,15 +27,22 @@ class LogOutView(BaseLogOutView):
     next_page = 'showFeed'
 
 
-class CreateAccountView(FormErrorsContextMixin, CreateView):
+def login_exclude(request):
+    return request.user.is_authenticated
+
+class CreateAccountView(FormErrorsContextMixin, UserPassesTestMixin, CreateView):
     template_name = 'users/signup.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('showProfile')
 
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return redirect('showProfile')
+
     def form_valid(self, form):
         response = super().form_valid(form)
-
         # Automatically log the user in.
         login(self.request, self.object)
-
         return response

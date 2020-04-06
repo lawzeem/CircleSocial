@@ -22,6 +22,7 @@
         <li><a href="{% url 'showFeed' %}">Feed</a></li>
         {% if user.is_authenticated %}
           {% block navfull %}{% endblock %}
+          <li><a href="{% url 'showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>
         {% else %}
@@ -34,6 +35,7 @@
         <li><a href="{% url 'showFeed' %}">Feed</a></li>
         {% if user.is_authenticated %}
           {% block navmob %}{% endblock %}
+          <li><a href="{% url 'showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>
         {% else %}
