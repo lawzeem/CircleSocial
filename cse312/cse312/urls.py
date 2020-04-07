@@ -20,9 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('cse312.users.urls')),
+    path('user/', include('cse312.users.urls')),
     path('friends/', include('cse312.friends.urls')),
     path('message/', include('cse312.message.urls')),
     path('profile/', include('cse312.profile.urls')),
-    path('feed/', include('cse312.feed.urls')),
+    path('', include('cse312.feed.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
