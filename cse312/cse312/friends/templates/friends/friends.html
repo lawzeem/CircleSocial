@@ -1,107 +1,35 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Friends</title>
+{% extends 'base.html' %}
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-</head>
-<body>
-  <nav class="indigo darken-4" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="{% url 'showFeed' %}" class="brand-logo">Circles</a>
-      <ul class="right hide-on-med-and-down">
-          <li> <a href="{% url 'showFriends' %}" class="nav-link">Friends</a></li>
-      </ul>
-      <ul id="nav-mobile" class="sidenav">
-          <li> <a href="{% url 'showFriends' %}" class="nav-link">Friends</a></li>
-          <li><a href="{% url 'showFeed' %}" class="nav-link">Feed</a></li>
-          <li><a href="{% url 'showProfile' %}" class="nav-link">Profile</a></li>
-      </ul>
-      <ul class="right hide-on-med-and-down">
-          <li><a href="{% url 'showFeed' %}" class="nav-link">Feed</a></li>
-      </ul>
-      <ul class="right hide-on-med-and-down">
-          <li><a href="{% url 'showProfile' %}" class="nav-link">Profile</a></li>
-      </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
+{% load static %}
+
+{% block title %}Friends{% endblock %}
+
+{% block body %}
   <div class="section no-pad-bot" id="index-banner">
     <div class="container row">
       <br>
       <div class="card row col m10 offset-m1 s12">
-        <br>
         <h1 class="header center black-text">Friends</h1>
         <div class="row">
           <div class="row center col s12">
-            <div class="row center col s12 m10 offset-m1">
-              <a href="{% url 'showMessage' %}" class="nav-link">
-              <div class="card horizontal light-blue lighten-4">
-                <div class="card-image">
-                  <i class="large material-icons">person</i>
-                </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <h5>Friend 1</h5>
+            {% for friend in friends %}
+              <div class="row center col s12 m10 offset-m1">
+                <a href="{% url 'showMessage' %}" class="nav-link">
+                <div class="card horizontal light-blue lighten-4 row">
+                  <div class="image-cropper-small col m2 s4">
+                    <img src="{{ friend.profile.image.url }}" alt="{{ friend.get_first_name }} Profile Picture" class="rounded-circle-small">
+                  </div>
+                  <div class="card-stacked center col m8">
+                    <h4 class="white-text center">{{ friend.get_user_name }}</h4>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row center col s12 m10 offset-m1">
-              <a href="{% url 'showMessage' %}" class="nav-link">
-              <div class="card horizontal light-blue lighten-4">
-                <div class="card-image">
-                  <i class="large material-icons">person</i>
-                </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <h5>Friend 2</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row center col s12 m10 offset-m1">
-              <a href="{% url 'showMessage' %}" class="nav-link">
-              <div class="card horizontal light-blue lighten-4">
-                <div class="card-image">
-                  <i class="large material-icons">person</i>
-                </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <h5>Friend 3</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row center col s12 m10 offset-m1">
-              <a href="{% url 'showMessage' %}" class="nav-link">
-              <div class="card horizontal light-blue lighten-4">
-                <div class="card-image">
-                  <i class="large material-icons">person</i>
-                </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <h5>Friend 4</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
+            <br>
           </div>
         </div>
         <br><br>
       </div>
     </div>
   </div>
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{% static 'js/materialize.min.js' %}"></script>
-  <script src="{% static 'js/init.js' %}"></script>
-
-  </body>
-</html>
+{% endblock %}

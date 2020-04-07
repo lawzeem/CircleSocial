@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm
 from .models import Profile
 from cse312.users.models import User
+from cse312.friends.models import Friend
 from django.http import Http404
 
 @login_required
@@ -28,7 +29,9 @@ def GetProfile(request, username):
     try:
         user = User.objects.get(user_name=username)
         profile = Profile.objects.get(user=user)
-        args = {'profile':profile}
+        friend = Friend.objects.get(current_user=request.user)
+        friends = friend.user.all()
+        args = {'profile':profile, 'friends':friends}
     except:
         raise Http404
     return render(request, 'profile/view.html', args)
