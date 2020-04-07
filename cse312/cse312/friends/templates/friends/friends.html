@@ -14,13 +14,16 @@
           <div class="row center col s12">
             {% for friend in friends %}
               <div class="row center col s12 m10 offset-m1">
-                <a href="{% url 'showMessage' %}" class="nav-link">
                 <div class="card horizontal light-blue lighten-4 row">
                   <div class="image-cropper-small col m2 s4">
                     <img src="{{ friend.profile.image.url }}" alt="{{ friend.get_first_name }} Profile Picture" class="rounded-circle-small">
                   </div>
                   <div class="card-stacked center col m8">
+                    <a href="{% url 'getProfile' username=friend.get_user_name %}" class="nav-link">
                     <h4 class="white-text center">{{ friend.get_user_name }}</h4>
+                  </div>
+                  <div>
+                    <i class="large material-icons"><a href="{% url 'showMessage' %}">message</i>
                   </div>
                 </div>
               </div>
