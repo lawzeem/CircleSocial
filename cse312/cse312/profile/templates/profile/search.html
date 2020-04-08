@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container row">
+      <br>
+      <div class="card row col m10 offset-m1 s12">
+        <h1 class="header center black-text">Search</h1>
+        <div class="row center">
+          <div class="searchbar col m10 offset-m1">
+            <div class="nav-wrapper">
+              <form action="{% url 'searchProfile' %}">
+                <div class="input-field">
+                  <input id="search" placeholder="Search" type="search" name="q" value="{{ request.GET.q }}">
+                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  <i class="material-icons">close</i>
+                </div>
+              </form>
+            </div>
+          </div>
+          {% if users %}
+            {% for user in users %}
+              <div class="row center col s12 m10 offset-m1">
+                <div class="card light-blue lighten-4 row">
+                  <div class="image-cropper-small col m2 s4">
+                    <img src="{{ user.profile.image.url }}" alt="{{ user.get_first_name }} Profile Picture" class="rounded-circle-small">
+                  </div>
+                  <div class="center col m8">
+                    <a href="{% url 'getProfile' username=user.get_user_name %}" class="nav-link">
+                      <h4 class="white-text center">{{ user.get_user_name }}</h4>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="col center s12">
+              <h4>No Users Found<h4>
+            </div>
+          {% endif %}
+          <br>
+        </div>
+        <br><br>
+      </div>
+    </div>
+  </div>
+{% endblock %}

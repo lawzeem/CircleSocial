@@ -14,7 +14,7 @@
           <img src="{{ user.profile.image.url }}" alt="{{ user.get_first_name }} Profile Picture" class="rounded-circle">
         </div>
         <h5 class="white-text center offset-s2 col s8 m10">@{{ user.get_user_name }}</h5>
-        <a href="{% url 'editProfile' %}" class="btn-large waves-effect waves-light blue offset-s4 offset-m2 col s4 m6">Edit</a>
+        <a href="{% url 'editProfile' %}" class="btn-large rounded-button waves-effect waves-light blue offset-s4 offset-m2 col s4 m6">Edit</a>
         <p class="white-text center offset-s2 col s8 m10">{{ user.profile.bio }}</p>
       </div>
     </div>
