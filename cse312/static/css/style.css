@@ -63,3 +63,11 @@ body{
 .rounded-button{
   border-radius: 25px;
 }
+.searchbar{
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  background-color: #F1F1F1;
+}
+#search{
+  background-color: inherit;
+}

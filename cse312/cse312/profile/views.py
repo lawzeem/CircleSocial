@@ -5,6 +5,7 @@ from .models import Profile
 from cse312.users.models import User
 from cse312.friends.models import Friend
 from django.http import Http404
+from django.db.models import Q
 
 @login_required
 def showProfile(request):
@@ -35,3 +36,12 @@ def GetProfile(request, username):
     except:
         raise Http404
     return render(request, 'profile/view.html', args)
+
+def SearchProfile(request):
+    query = request.GET.get('q')
+    if query:
+        results = User.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(user_name__icontains=query))
+    else:
+        results = User.objects.all()
+    args = {'users':results}
+    return render(request, 'profile/search.html', args)
