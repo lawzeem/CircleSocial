@@ -30,8 +30,11 @@ def GetProfile(request, username):
     try:
         user = User.objects.get(user_name=username)
         profile = Profile.objects.get(user=user)
-        friend = Friend.objects.get(current_user=request.user)
-        friends = friend.user.all()
+        friends = Friend.objects.filter(current_user=request.user)
+        if user in friends:
+            friends = True
+        else:
+            friends = False
         args = {'profile':profile, 'friends':friends}
     except:
         raise Http404

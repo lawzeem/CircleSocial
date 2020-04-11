@@ -6,15 +6,15 @@ from .models import Friend
 from django.http import Http404, HttpResponseRedirect
 
 def showFriends(request):
-    friend = Friend.objects.get(current_user=request.user)
-    friends = friend.user.all()
+    friends = Friend.objects.filter(current_user=request.user)
+    # friends = friend.user.all()
     return render(request, 'friends/friends.html', {'friends':friends});
 
 @login_required
 def editFriends(request, username, operation):
     owner = request.user
-    new_friend = User.objects.get(user_name=username)
-    profile = Profile.objects.get(user=new_friend)
+    new_friend = User.objects.filter(user_name=username)
+    profile = Profile.objects.filter(user=new_friend)
     if operation == "follow":
         Friend.follow(owner, new_friend)
     elif operation == "unfollow":
