@@ -7,13 +7,17 @@ from django.http import Http404, HttpResponseRedirect
 
 def showFriends(request):
     friends = Friend.objects.filter(current_user=request.user)
-    # friends = friend.user.all()
-    return render(request, 'friends/friends.html', {'friends':friends});
+    try:
+        friend = friends[0].user.all()
+    except:
+        friend = ""
+    return render(request, 'friends/friends.html', {'friends':friend});
 
 @login_required
 def editFriends(request, username, operation):
     owner = request.user
-    new_friend = User.objects.filter(user_name=username)
+    new_friend = User.objects.get(user_name=username)
+    # new_friend = new_friend[0]
     profile = Profile.objects.filter(user=new_friend)
     if operation == "follow":
         Friend.follow(owner, new_friend)

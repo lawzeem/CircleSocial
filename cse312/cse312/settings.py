@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'cse312.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cse312',
+        'NAME': 'django',
         'USER': 'postgres',
-        'PASSWORD': 'Lawzeem.123',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'django',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

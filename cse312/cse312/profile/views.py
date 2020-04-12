@@ -30,7 +30,7 @@ def GetProfile(request, username):
     try:
         user = User.objects.get(user_name=username)
         profile = Profile.objects.get(user=user)
-        friends = Friend.objects.filter(current_user=request.user)
+        friends = Friend.objects.filter(current_user=request.user)[0].user.all()
         if user in friends:
             friends = True
         else:
