@@ -17,6 +17,7 @@ Once you have Django installed, open a terminal and go into the cse312 directory
 #### Docker Instructions ####
 For Testing :
 - To build Docker use : "sudo docker-compose build", the sudo part is required for root access unless you have another usergroup set up.
+- In case you need to migrate, use "docker-compose run python python manage.py makermigrations" then "docker-compose run python python manage.py migrate" 
 - To run Docker after its done building : "sudo docker-compose up"
 - And then open localhost:8000 on your browser.
 
