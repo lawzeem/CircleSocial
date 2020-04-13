@@ -29,8 +29,14 @@ def EditProfileView(request):
 def GetProfile(request, username):
     try:
         user = User.objects.get(user_name=username)
+        print("Found User")
         profile = Profile.objects.get(user=user)
-        friends = Friend.objects.filter(current_user=request.user)[0].user.all()
+        print("Found Profile")
+        # Use in postgres
+        # friends = Friend.objects.filter(current_user=request.user)[0].user.all()
+        # Use in sqlite
+        friends = Friend.objects.filter(current_user=request.user)
+        print("Found Friends")
         if user in friends:
             friends = True
         else:
