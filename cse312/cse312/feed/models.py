@@ -5,12 +5,12 @@ from PIL import Image
 
 
 class Post(models.Model):
-    post_id = models.CharField(primary_key=True, max_length=50)
     title = models.CharField('title', max_length=100)
     image = models.ImageField(default='post/default.jpg', upload_to='post')
     description = models.CharField('description', max_length=1000)
     upvotes= models.IntegerField(default=0)
     comment = models.CharField('comment', max_length = 2000)
+    user_id = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
 
     def save_img(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -28,7 +28,6 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
-    comment_id = models.CharField(primary_key=True, max_length=50)
     post_id = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
     user_id = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
     comment = models.TextField()
