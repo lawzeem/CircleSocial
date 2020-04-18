@@ -8,21 +8,33 @@
   <div class="container row">
     <br>
     <div class="card row col m12 s12">
-      <h1 class="header center black-text">Feed</h1>
+      <h1 class="header center black-text">{{ post.title }}</h1>
       <div class="row">
         <div class="card row col m10 offset-m1 s12">
-          <div class="content">
+          <div class="content card-feed">
             <h5>{{ post.user.user_name }}</h5>
             <img src="{{ post.image.url }}" alt="dog" style="width:100%">
             <br>
             <h6>{{ post.description }}</h6>
             <br>
-            <a href="{% url 'upvotePost' post.id %}" class="btn"><i class="material-icons ">thumb_up</i></a>
-            <a href="{% url 'viewPost' post.id %}" class="btn"><i class="material-icons ">comment</i></a>
-            <form method="post">
+            <div class="row">
+              <a href="{% url 'upvotePost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">thumb_up</i></a>
+              <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
+            </div>
+            <div class="row">
+              <div class="col l1">
+                <p>{{ post.upvotes.count }} Likes</p>
+              </div>
+              <div class="col l2">
+                <p>{{ post.comments.count }} Comments</p>
+              </div>
+            </div>
+            <form method="post" class="row">
               {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" name="sumbit" value="Post">
+              <div class="col s12 cmnt-inp">
+                {{ form.as_p }}
+              </div>
+              <input type="submit" name="sumbit" value="Post" class="btn-small col s6 offset-s3">
             </form>
             <hr>
             {% for comment in comments %}
