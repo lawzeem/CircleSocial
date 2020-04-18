@@ -25,8 +25,15 @@ def MakePostView(request):
         return render(request, 'feed/add.html', args)
 
 @login_required
-def ViewPost(request, post):
-    pass
+def ViewPost(request, post_id):
+    post = Post.objects.get(id = post_id)
+    return render(request, 'feed/post.html', {'post':post})
+
+@login_required
+def UpvotePost(request, post_id):
+    post = Post.objects.get(id = post_id)
+    post.upvotes.add(request.user)
+    return render(request, 'feed/post.html', {'post':post})
 
 @login_required
 def MakeComment(request, post_id):

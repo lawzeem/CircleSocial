@@ -8,7 +8,7 @@ class Post(models.Model):
     title = models.CharField('title', max_length=100)
     image = models.ImageField(default='post/default.jpg', upload_to='post')
     description = models.CharField('description', max_length=1000)
-    upvotes= models.IntegerField(default=0)
+    upvotes= models.ManyToManyField(User, related_name='upvotes', blank=True)
     user = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
 
     def save(self, *args, **kwargs):
