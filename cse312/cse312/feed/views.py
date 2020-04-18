@@ -1,5 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comments
+from cse312.users.models import User
+from .forms import PostForm
+from django.http import Http404
 
-# Create your views here.
 def showFeed(request):
-    return render(request, 'feed/feed.html');
+    posts = Post.objects.all()
+    args = {'posts' : posts}
+    return render(request, 'feed/feed.html', args);
+
+@login_required
+def MakePostView(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            return redirect('showFeed')
+    else:
+        form = PostForm()
+        args = {'form' : form}
+        return render(request, 'feed/add.html', args)

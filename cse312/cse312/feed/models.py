@@ -9,22 +9,15 @@ class Post(models.Model):
     image = models.ImageField(default='post/default.jpg', upload_to='post')
     description = models.CharField('description', max_length=1000)
     upvotes= models.IntegerField(default=0)
-    comment = models.CharField('comment', max_length = 2000)
-    user_id = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
 
-    def save_img(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (600, 600)
+        if img.height > 720 or img.width > 1280:
+            output_size = (720, 1280)
             img.thumbnail(output_size)
-            img.save_img(self.image.path)
-
-    def publish_post(self):
-        self.save()
-
-    def __str__(self):
-        return self.title
+            img.save(self.image.path)
 
 
 class Comments(models.Model):
@@ -36,5 +29,3 @@ class Comments(models.Model):
     def __str__(self):
         return self.comment
 
-
-# Create your models here.
