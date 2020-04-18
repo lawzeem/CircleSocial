@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Add Post{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <h2 class="white-text center">Add Post</h2>
+    <form class="card row col m8 offset-m2 s12" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row center">
+        {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
+        <h3 class="center">@{{ user.get_user_name }}</h3>
+        <br>
+        <div class="row center">
+          <h5 class="center">Image :</h5>
+          <h6>{{ form.image }}</h6>
+        </div>
+      </div>
+      <div class="row center">
+        <h5 class="center">Title :</h5>
+        <div class="col m10 offset-m1">
+          <h3>{{ form.title }}</h3>
+        </div>
+      </div>
+      <div class="row center">
+        <h5 class="center">Description :</h5>
+        <div class="col m10 offset-m1">
+          <h3>{{ form.description }}</h3>
+        </div>
+      </div>
+      <div class="row center">
+        <button class="btn-large rounded-button waves-effect waves-light blue" type="submit" name="button">Post</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

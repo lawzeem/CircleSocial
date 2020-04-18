@@ -71,3 +71,9 @@ body{
 #search{
   background-color: inherit;
 }
+.card-feed{
+  padding: 1rem;
+}
+.cmnt-inp p{
+  margin: 0;
+}
