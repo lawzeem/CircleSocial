@@ -19,6 +19,11 @@
             <br>
             <a href="{% url 'upvotePost' post.id %}" class="btn"><i class="material-icons ">thumb_up</i></a>
             <a href="{% url 'viewPost' post.id %}" class="btn"><i class="material-icons ">comment</i></a>
+            <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" name="sumbit" value="Post">
+            </form>
             <hr>
             {% for comment in comments %}
               <h5>{{ comment.user.user_name }} : </h5><p>{{ comment.comment }}</p>

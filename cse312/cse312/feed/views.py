@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comments
 from cse312.users.models import User
-from .forms import PostForm
-from django.http import Http404
+from .forms import PostForm, CommentForm
+from django.http import Http404, HttpResponseRedirect
 
 def showFeed(request):
     posts = Post.objects.all()
@@ -28,7 +28,22 @@ def MakePostView(request):
 def ViewPost(request, post_id):
     post = Post.objects.get(id = post_id)
     comments = Comments.objects.filter(post = post)
-    return render(request, 'feed/post.html', {'post':post, 'comments':comments})
+    form = CommentForm(request.POST or None)
+    args = {
+    'post':post,
+    'comments':comments,
+    'form':form
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            f = form.save(commit = False)
+            f.post = post
+            f.user = request.user
+            f.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            form = CommentForm()
+    return render(request, 'feed/post.html', args)
 
 @login_required
 def UpvotePost(request, post_id):
