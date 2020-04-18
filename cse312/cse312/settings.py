@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cse312.profile',
     'cse312.feed',
     'cse312.users',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "cse312.routing.application"
 WSGI_APPLICATION = 'cse312.wsgi.application'
 
 

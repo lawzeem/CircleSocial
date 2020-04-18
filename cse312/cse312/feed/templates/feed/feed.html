@@ -43,3 +43,27 @@
     </div>
   </div>
 {% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    var loc = window.location
+    var ws = 'ws://'
+    if(loc.protocol == 'https'){
+      ws = 'wss://'
+    }
+    var endPoint = ws + loc.host + loc.pathname
+    var socket = new WebSocket(endPoint)
+
+    socket.onmessage = function(e){
+      console.log("Message", e)
+    }
+    socket.onopen = function(e){
+      console.log("Open", e)
+    }
+    socket.onerror = function(e){
+      console.log("Error", e)
+    }
+    socket.onclose = function(e){
+      console.log("Close", e)
+    }
+  </script>
+{% endblock %}
