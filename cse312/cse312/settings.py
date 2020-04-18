@@ -25,6 +25,9 @@ SECRET_KEY = 'bzkblhhoeubiqnn@e2=i_%r3=xt-n)ftsz2z^(+mopc$tx^*ca'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Setting a Docker Variable for DB Testing
+DOCKER = False
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
@@ -79,14 +82,24 @@ WSGI_APPLICATION = 'cse312.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DOCKER:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'django',
+            'USER': 'postgres',
+            'PASSWORD': 'django',
+            'HOST': 'db',
+            'PORT': '5432',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 # Use a custom user model.
 AUTH_USER_MODEL = 'users.User'
 
