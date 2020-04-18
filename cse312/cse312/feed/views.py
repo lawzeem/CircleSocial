@@ -23,3 +23,11 @@ def MakePostView(request):
         form = PostForm()
         args = {'form' : form}
         return render(request, 'feed/add.html', args)
+
+@login_required
+def ViewPost(request, post):
+    pass
+
+@login_required
+def MakeComment(request, post_id):
+    pass

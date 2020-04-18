@@ -21,8 +21,8 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
-    post_id = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
-    user_id = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
     comment = models.TextField()
     upvotes = models.IntegerField(default=0)
 
