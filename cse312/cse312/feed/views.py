@@ -6,7 +6,7 @@ from .forms import PostForm, CommentForm
 from django.http import Http404, HttpResponseRedirect
 
 def showFeed(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-id')
     args = {'posts' : posts}
     return render(request, 'feed/feed.html', args);
 
@@ -49,8 +49,4 @@ def ViewPost(request, post_id):
 def UpvotePost(request, post_id):
     post = Post.objects.get(id = post_id)
     post.upvotes.add(request.user)
-    return render(request, 'feed/post.html', {'post':post})
-
-@login_required
-def MakeComment(request, post_id):
-    pass
+    return ViewPost(request, post_id)

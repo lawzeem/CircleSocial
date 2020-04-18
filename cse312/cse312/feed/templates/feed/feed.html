@@ -24,8 +24,8 @@
                   <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
                 </div>
                 <div class="row">
-                  <div class="col l1">
-                    <p>{{ post.upvotes.count }} Likes</p>
+                  <div class="col l2">
+                    <p>{{ post.upvotes.count }} Upvotes</p>
                   </div>
                   <div class="col l2">
                     <p>{{ post.comments.count }} Comments</p>
@@ -36,6 +36,13 @@
             {% endfor %}
           {% else %}
             <h2 class="center">No Posts Yet</h2>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+          <div class="fixed-action-btn">
+            <a class="btn-large btn-floating waves-effect waves-lighten indigo darken-4" href="{% url 'makePost' %}">
+              <i class="material-icons">add</i>
+            </a>
+          </div>
           {% endif %}
       </div>
     </div>

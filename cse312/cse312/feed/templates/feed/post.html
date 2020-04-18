@@ -22,11 +22,8 @@
               <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
             </div>
             <div class="row">
-              <div class="col l1">
-                <p>{{ post.upvotes.count }} Likes</p>
-              </div>
-              <div class="col l2">
-                <p>{{ post.comments.count }} Comments</p>
+              <div class="col l6">
+                <p>{{ post.upvotes.count }} Upvotes | {{ post.comments.count }} Comments</p>
               </div>
             </div>
             <form method="post" class="row">
@@ -34,7 +31,9 @@
               <div class="col s12 cmnt-inp">
                 {{ form.as_p }}
               </div>
-              <input type="submit" name="sumbit" value="Post" class="btn-small col s6 offset-s3">
+              <div class="row center">
+                <button class="btn-small rounded-button waves-effect waves-light blue" type="submit" name="button">Post</button>
+              </div>
             </form>
             <hr>
             {% for comment in comments %}

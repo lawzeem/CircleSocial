@@ -1,6 +1,5 @@
 from django.db import models
 from cse312.users.models import User
-# from cse312.users.models import feed
 from PIL import Image
 
 
