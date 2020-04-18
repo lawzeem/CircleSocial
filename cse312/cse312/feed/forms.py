@@ -4,9 +4,9 @@ from .models import Post, Comments
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'image', 'description')
+        fields = ('title', 'image', 'description',)
 
-class UpvoteForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = {'upvotes'}
+        model = Comments
+        fields = {'comment',}

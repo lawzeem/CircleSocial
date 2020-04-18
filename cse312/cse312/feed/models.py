@@ -23,8 +23,7 @@ class Post(models.Model):
 class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, unique=False, on_delete = models.CASCADE)
-    comment = models.TextField()
-    upvotes = models.IntegerField(default=0)
+    comment = models.TextField(max_length=140)
 
     def __str__(self):
         return self.comment

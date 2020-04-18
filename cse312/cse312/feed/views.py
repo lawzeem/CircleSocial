@@ -27,7 +27,8 @@ def MakePostView(request):
 @login_required
 def ViewPost(request, post_id):
     post = Post.objects.get(id = post_id)
-    return render(request, 'feed/post.html', {'post':post})
+    comments = Comments.objects.filter(post = post)
+    return render(request, 'feed/post.html', {'post':post, 'comments':comments})
 
 @login_required
 def UpvotePost(request, post_id):
