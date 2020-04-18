@@ -17,12 +17,8 @@
             <br>
             <h6>{{ post.description }}</h6>
             <br>
-            <button type="button" class="btn waves-effect light-blue">
-              <i class="material-icons ">thumb_up</i>
-            </button>
-            <button type="button" class="btn light-blue">
-              <i class="material-icons ">comment</i>
-            </button>
+            <a href="{% url 'upvotePost' post.id %}" class="btn"><i class="material-icons ">thumb_up</i></a>
+            <a href="{% url 'viewPost' post.id %}" class="btn"><i class="material-icons ">comment</i></a>
             <br><br>
           </div>
         </div>
