@@ -60,15 +60,7 @@
     var comment = $("input[name=comment]")
     var upvoteBtn = $("#upvote")
     socket.onopen = function(e){
-      // console.log("Open", e)
       console.log("Open in Post", e)
-      // var recv = JSON.parse(e.data)
-      // var voted = recv.upvote
-      // if(voted == False){
-        // console.log("Vote")
-        // }else{
-          // console.log("Voted Already!")
-          // }
       f.submit(function(event){
         event.preventDefault()
         var msg = comment.get(0).value
@@ -85,9 +77,16 @@
           document.getElementById("count_upvotes").innerHTML++
         }
       }else{
-        var username = String(recv.username)
-        var comment = String(recv.comment)
-        var toAdd = "<h5>" + username + " : " + "</h5>" + "<p>" + comment + "</p>"
+        var username = JSON.stringify({name:recv.username})
+        var name = JSON.parse(username)
+        var user_name = name.name
+        user_name = user_name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        console.log("Here: ", name.name)
+        var comment = JSON.stringify({comment:recv.comment})
+        var cmnt = JSON.parse(comment)
+        var new_comment = cmnt.comment
+        new_comment = new_comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var toAdd = "<h5>" + user_name + " : " + "</h5>" + "<p>" + new_comment + "</p>"
         document.getElementById("comment-section").innerHTML+=toAdd
         document.getElementById("count_cmnt").innerHTML++
         console.log("Comment", e)

@@ -77,3 +77,6 @@ body{
 .cmnt-inp p{
   margin: 0;
 }
+.notification.error{
+  color: red;
+}

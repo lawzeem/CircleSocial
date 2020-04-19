@@ -26,7 +26,7 @@ SECRET_KEY = 'bzkblhhoeubiqnn@e2=i_%r3=xt-n)ftsz2z^(+mopc$tx^*ca'
 DEBUG = True
 
 # Setting a Docker Variable for DB Testing
-DOCKER = False
+DOCKER = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
@@ -81,14 +81,6 @@ TEMPLATES = [
 ASGI_APPLICATION = "cse312.routing.application"
 WSGI_APPLICATION = 'cse312.wsgi.application'
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
-    },
-}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -103,12 +95,28 @@ if DOCKER:
             'PORT': '5432',
         }
     }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("redis", 6379)],
+            },
+        },
+    }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
+    }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
     }
 # Use a custom user model.
 AUTH_USER_MODEL = 'users.User'

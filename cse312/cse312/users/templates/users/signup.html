@@ -13,7 +13,7 @@
             {% csrf_token %}
 
             {% if form_errors %}
-                <div class="notification error">
+                <div class="row center notification error">
                     {{ form_errors }}
                 </div>
             {% endif %}
@@ -63,7 +63,7 @@
 
                 <div class="row">
                     <div class="col s12 center">
-                        <button class="btn-large waves-effect waves-light">
+                        <button class="btn-large waves-effect waves-light blue rounded-button">
                             Sign Up
                         </button>
                     </div>
