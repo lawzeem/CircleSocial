@@ -25,6 +25,9 @@ SECRET_KEY = 'bzkblhhoeubiqnn@e2=i_%r3=xt-n)ftsz2z^(+mopc$tx^*ca'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Setting a Docker Variable for DB Testing
+DOCKER = True
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
@@ -38,12 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'cse312.login',
-    'cse312.signup',
+    'cse312.base',
     'cse312.friends',
     'cse312.message',
     'cse312.profile',
     'cse312.feed',
+    'cse312.users',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -74,19 +78,48 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "cse312.routing.application"
 WSGI_APPLICATION = 'cse312.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DOCKER:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'django',
+            'USER': 'postgres',
+            'PASSWORD': 'django',
+            'HOST': 'db',
+            'PORT': '5432',
+        }
     }
-}
-
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("redis", 6379)],
+            },
+        },
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
+    }
+# Use a custom user model.
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -131,3 +164,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'showProfile'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

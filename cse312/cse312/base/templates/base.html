@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  {% block full_title %}<title>{% block title %}{% endblock %} | Circles</title>{% endblock %}
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/navsearch.css' %}" type="text/css">
+  {% block style %}{% endblock %}
+
+</head>
+<body>
+  <nav class="indigo darken-4" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="{% url 'showFeed' %}" class="brand-logo">
+        Circles
+      </a>
+
+      <ul class="right hide-on-med-and-down">
+        <li>
+          <form action="{% url 'searchProfile' %}" class="browser-default right">
+            <input id="search-input" placeholder="Search" type="text" class="browser-default search-field" name="q" value="{{ request.GET.q }}" autocomplete="off" aria-label="Search box">
+            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+            <i class="material-icons search-close-icon">cancel</i>
+          </form>
+        </li>
+        <li><a href="{% url 'showFeed' %}">Feed</a></li>
+        {% if user.is_authenticated %}
+          {% block navfull %}{% endblock %}
+          <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
+          <li><a href="{% url 'showProfile' %}">My Profile</a></li>
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
+        {% else %}
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
+          <li><a href="{% url 'users:signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="{% url 'showFeed' %}">Feed</a></li>
+        {% if user.is_authenticated %}
+          {% block navmob %}{% endblock %}
+          <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
+          <li><a href="{% url 'showProfile' %}">My Profile</a></li>
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
+        {% else %}
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
+          <li><a href="{% url 'users:signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <main>
+    {% block body %}{% endblock %}
+  </main>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.min.js' %}"></script>
+  <script src="{% static 'js/init.js' %}"></script>
+  {% block scripts %}{% endblock %}
+
+  </body>
+</html>

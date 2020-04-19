@@ -2,3 +2,9 @@ django>=2.1.2
 djangorestframework>=3.8.2
 urllib3>=1.23
 requests>=2.19.1
+psycopg2
+Pillow
+channels~=2.2
+redis==2.10.6
+channels_redis>=2.3.0
+asgiref~=3.2
