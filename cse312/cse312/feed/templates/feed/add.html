@@ -25,7 +25,6 @@
           {% endfor %}
         {% endif %}
         <h3 class="center">@{{ user.get_user_name }}</h3>
-        <br>
         <div class="row center">
           <h5 class="center">Image :</h5>
           <h6>{{ form.image }}</h6>
@@ -33,13 +32,13 @@
       </div>
       <div class="row center">
         <h5 class="center">Title :</h5>
-        <div class="col m10 offset-m1">
+        <div class="col m10 offset-m1 s12">
           <h3>{{ form.title }}</h3>
         </div>
       </div>
       <div class="row center">
         <h5 class="center">Description :</h5>
-        <div class="col m10 offset-m1">
+        <div class="col m10 offset-m1 s12">
           <h3>{{ form.description }}</h3>
         </div>
       </div>
@@ -48,4 +47,34 @@
       </div>
     </form>
   </div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+  <script type="text/javascript">
+    var loc = window.location
+    var ws = 'ws://'
+    if(loc.protocol == 'https'){
+      ws = 'wss://'
+    }
+    var endPoint = ws + loc.host + loc.pathname
+    var socket = new ReconnectingWebSocket(endPoint)
+    var f = $("form")
+
+    socket.onmessage = function(e){
+      console.log("Comment", e)
+    }
+    socket.onopen = function(e){
+      console.log("Open", e)
+      f.submit(function(event){
+        var msg = "New Post"
+        socket.send(msg)
+      })
+    }
+    socket.onerror = function(e){
+      console.log("Error", e)
+    }
+    socket.onclose = function(e){
+      console.log("Close", e)
+    }
+  </script>
 {% endblock %}
