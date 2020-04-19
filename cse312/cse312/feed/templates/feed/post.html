@@ -21,26 +21,67 @@
               <a href="{% url 'upvotePost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">thumb_up</i></a>
               <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
               <div class="col l6">
-                <p>{{ post.upvotes.count }} Upvotes | {{ post.comments.count }} Comments</p>
+                <p><span id="count_upvotes">{{ post.upvotes.count }}</span> Upvotes | <span id="count_cmnt">{{ post.comments.count }}</span> Comments</p>
               </div>
             </div>
-            <form method="post" class="row">
+            <form method="post" class="row" id="form">
               {% csrf_token %}
               <div class="col s12 cmnt-inp">
-                {{ form.as_p }}
+                {{ form.comment }}
               </div>
               <div class="row center">
                 <button class="btn-small rounded-button waves-effect waves-light blue" type="submit" name="button">Post</button>
               </div>
             </form>
             <hr>
+            <div id="comment-section">
             {% for comment in comments %}
               <h5>{{ comment.user.user_name }} : </h5><p>{{ comment.comment }}</p>
             {% endfor %}
+            </div>
             <br>
           </div>
         </div>
       </div>
     </div>
   </div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+  <script type="text/javascript">
+    var loc = window.location
+    var ws = 'ws://'
+    if(loc.protocol == 'https'){
+      ws = 'wss://'
+    }
+    var endPoint = ws + loc.host + loc.pathname
+    var socket = new ReconnectingWebSocket(endPoint)
+    var f = $("form")
+    var comment = $("input[name=comment]")
+
+    socket.onmessage = function(e){
+      var recv = JSON.parse(e.data)
+      var username = String(recv.username)
+      var comment = String(recv.comment)
+      var toAdd = "<h5>" + username + " : " + "</h5>" + "<p>" + comment + "</p>"
+      document.getElementById("comment-section").innerHTML+=toAdd
+      document.getElementById("count_cmnt").innerHTML++
+      console.log("Comment", e)
+    }
+    socket.onopen = function(e){
+      console.log("Open", e)
+      f.submit(function(event){
+        event.preventDefault()
+        var msg = comment.get(0).value
+        socket.send(msg)
+        comment.get(0).value = ''
+      })
+    }
+    socket.onerror = function(e){
+      console.log("Error", e)
+    }
+    socket.onclose = function(e){
+      console.log("Close", e)
+    }
+  </script>
 {% endblock %}
