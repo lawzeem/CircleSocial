@@ -22,9 +22,6 @@
                 <div class="row">
                   <a href="{% url 'upvotePost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">thumb_up</i></a>
                   <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
-                  <div class="col l6">
-                    <p>{{ post.upvotes.count }} Upvotes | {{ post.comments.count }} Comments</p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -44,18 +41,32 @@
   </div>
 {% endblock %}
 {% block scripts %}
+  <script src="{% static 'js/feed.js' %}"></script>
   <script type="text/javascript">
     var loc = window.location
     var ws = 'ws://'
     if(loc.protocol == 'https'){
       ws = 'wss://'
     }
+
     var endPoint = ws + loc.host + loc.pathname
     var socket = new WebSocket(endPoint)
     var f = $("feed")
+
     socket.onmessage = function(e){
-      f.append(e)
-      console.log("Message", e.data)
+      var recv = JSON.parse(e.data)
+      console.log(recv)
+      var title = String(recv.title)
+      var username = String(recv.username)
+      var desc = String(recv.desc)
+      var imgUrl = String(recv.url)
+
+      var id = String(recv.id)
+
+      var content = addPost(id, username, imgUrl, desc)
+
+      document.getElementById("feed").innerHTML = content + document.getElementById("feed").innerHTML
+      console.log("Message", e)
     }
     socket.onopen = function(e){
       console.log("Open", e)

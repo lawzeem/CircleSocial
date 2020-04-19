@@ -4,9 +4,14 @@ from .models import Post, Comments
 from cse312.users.models import User
 from .forms import PostForm, CommentForm
 from django.http import Http404, HttpResponseRedirect
+from .serializer import PostSerializer
+import time
 
 def showFeed(request):
+    time.sleep(2)
     posts = Post.objects.all().order_by('-id')
+    # p = PostSerializer(posts[0])
+    # print("Post Serialized : ", p.data)
     args = {'posts' : posts}
     return render(request, 'feed/feed.html', args);
 
