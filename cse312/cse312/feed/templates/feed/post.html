@@ -18,8 +18,8 @@
             <h6>{{ post.description }}</h6>
             <br>
             <div class="row">
-              <a href="{% url 'upvotePost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">thumb_up</i></a>
-              <a href="{% url 'viewPost' post.id %}" class="col l1 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
+              <a onclick="sendMyMessages()" id="upvote" class="col l6 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">thumb_up</i></a>
+              <a href="{% url 'viewPost' post.id %}" class="col l6 s6 btn-large waves-effect waves-light blue"><i class="material-icons ">comment</i></a>
               <div class="col l6">
                 <p><span id="count_upvotes">{{ post.upvotes.count }}</span> Upvotes | <span id="count_cmnt">{{ post.comments.count }}</span> Comments</p>
               </div>
@@ -47,7 +47,7 @@
   </div>
 {% endblock %}
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
   <script type="text/javascript">
     var loc = window.location
     var ws = 'ws://'
@@ -58,18 +58,17 @@
     var socket = new ReconnectingWebSocket(endPoint)
     var f = $("form")
     var comment = $("input[name=comment]")
-
-    socket.onmessage = function(e){
-      var recv = JSON.parse(e.data)
-      var username = String(recv.username)
-      var comment = String(recv.comment)
-      var toAdd = "<h5>" + username + " : " + "</h5>" + "<p>" + comment + "</p>"
-      document.getElementById("comment-section").innerHTML+=toAdd
-      document.getElementById("count_cmnt").innerHTML++
-      console.log("Comment", e)
-    }
+    var upvoteBtn = $("#upvote")
     socket.onopen = function(e){
-      console.log("Open", e)
+      // console.log("Open", e)
+      console.log("Open in Post", e)
+      // var recv = JSON.parse(e.data)
+      // var voted = recv.upvote
+      // if(voted == False){
+        // console.log("Vote")
+        // }else{
+          // console.log("Voted Already!")
+          // }
       f.submit(function(event){
         event.preventDefault()
         var msg = comment.get(0).value
@@ -77,11 +76,31 @@
         comment.get(0).value = ''
       })
     }
+    socket.onmessage = function(e){
+      console.log("On Message", e)
+      var recv = JSON.parse(e.data)
+      if(recv.msgtype=="Upvote"){
+        console.log(recv)
+        if(recv.upvote == true){
+          document.getElementById("count_upvotes").innerHTML++
+        }
+      }else{
+        var username = String(recv.username)
+        var comment = String(recv.comment)
+        var toAdd = "<h5>" + username + " : " + "</h5>" + "<p>" + comment + "</p>"
+        document.getElementById("comment-section").innerHTML+=toAdd
+        document.getElementById("count_cmnt").innerHTML++
+        console.log("Comment", e)
+      }
+    }
     socket.onerror = function(e){
       console.log("Error", e)
     }
     socket.onclose = function(e){
       console.log("Close", e)
+    }
+    function sendMyMessages() {
+      socket.send("Upvote");
     }
   </script>
 {% endblock %}
