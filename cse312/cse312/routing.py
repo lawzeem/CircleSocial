@@ -14,6 +14,7 @@ application = ProtocolTypeRouter({
                     url(r"^upvote/(?P<post_id>[\w.@+-]+)", UpvoteConsumer, name='upvotePost'),
                     url(r"^view/(?P<post_id>[\w.@+-]+)", CommentConsumer, name='viewPost'),
                     url('add', PostConsumer, name='makePost'),
+                    url('following', PostConsumer, name='showFollowingFeed'),
                     url('', PostConsumer, name='showFeed'),
                 ]
             )
