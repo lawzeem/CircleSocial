@@ -66,7 +66,7 @@
     socket.onopen = function(e){
       console.log("Open", e)
       f.submit(function(event){
-        var msg = "New Post"
+        var msg = {{ request.user.id }}
         socket.send(msg)
       })
     }

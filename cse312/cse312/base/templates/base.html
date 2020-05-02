@@ -28,9 +28,10 @@
             <i class="material-icons search-close-icon">cancel</i>
           </form>
         </li>
-        <li><a href="{% url 'showFeed' %}">Feed</a></li>
+        <li><a href="{% url 'showFeed' %}">Home</a></li>
         {% if user.is_authenticated %}
           {% block navfull %}{% endblock %}
+          <li><a href="{% url 'showFollowingFeed' %}">My Feed</a></li>
           <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>
@@ -44,6 +45,7 @@
         <li><a href="{% url 'showFeed' %}">Feed</a></li>
         {% if user.is_authenticated %}
           {% block navmob %}{% endblock %}
+          <li><a href="{% url 'showFollowingFeed' %}">My Feed</a></li>
           <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>
