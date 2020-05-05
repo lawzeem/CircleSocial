@@ -16,6 +16,7 @@ application = ProtocolTypeRouter({
                     url('add', PostConsumer, name='makePost'),
                     url('following', PostConsumer, name='showFollowingFeed'),
                     url('', PostConsumer, name='showFeed'),
+                    url(r"^messages/(?P<username>[\w.@+-]+)/$",MessageConsumer),
                 ]
             )
         )
