@@ -27,3 +27,38 @@
     </div>
   </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  var loc = window.location
+  var inMess = $("#message")
+  var ws = 'ws://'
+  if(loc.protocol == 'https'){
+    ws = 'wss://'
+  }
+
+  var endPoint = ws + loc.host + loc.pathname
+  var socket = new ReconnectingWebSocket(endPoint)
+
+  socket.onmessage = function(e){
+    console.log("message",e)
+  }
+  socket.onopen = function(e){
+    console.log("open",e)
+    inMess.submit(function(event){
+      event.preventDefault()
+      text = inMess.val()
+      socket.send(JSON.stringify({'message':text}))
+      inMess.val("Type A Message")
+    })
+  }
+  socket.onerror = function(e){
+    console.log("error",e)
+  }
+  socket.onclose = function(e){
+    console.log("close",e)
+  }
+
+
+</script>
+{% endblock %}
