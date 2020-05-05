@@ -4,6 +4,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
 
 from cse312.feed.consumer import CommentConsumer, PostConsumer, UpvoteConsumer
+from cse312.message.consumer import MessageConsumer
 
 application = ProtocolTypeRouter({
     # Empty for now (http->django views is added by default)
