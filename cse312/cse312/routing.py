@@ -4,7 +4,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
 
 from cse312.feed.consumer import CommentConsumer, PostConsumer, UpvoteConsumer
-from cse312.message.consumer import MessageConsumer
+from cse312.message.consumer import ChatConsumer
 
 application = ProtocolTypeRouter({
     # Empty for now (http->django views is added by default)
@@ -17,7 +17,7 @@ application = ProtocolTypeRouter({
                     url('add', PostConsumer, name='makePost'),
                     url('following', PostConsumer, name='showFollowingFeed'),
                     url('', PostConsumer, name='showFeed'),
-                    url(r"^messages/(?P<username>[\w.@+-]+)/$",MessageConsumer),
+                    url(r"^messages/(?P<username>[\w.@+-]+)/$",ChatConsumer, name='viewMessage'),
                 ]
             )
         )

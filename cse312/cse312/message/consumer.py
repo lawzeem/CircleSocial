@@ -1,12 +1,12 @@
 import asyncio
 import json
 from cse312.users.models import User
-# from django.contrib.auth import get_user_model
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
-from .models import Message
 
-class MessageConsumer(AsyncConsumer):
+from .models import Thread, ChatMessage
+
+class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self,event):
         print("connected to messaage consumer",event)
         await self.send({
@@ -22,7 +22,7 @@ class MessageConsumer(AsyncConsumer):
         messages = Message.objects.get_or_new(user,chatWith)[0]
         return message
 
-    async def websocket_recieve(self,event):
+    async def websocket_receive(self,event):
             # print("recieve",event)
             msgText = event.get('text',None)
             if msgText is not None:
