@@ -7,8 +7,8 @@ from channels.db import database_sync_to_async
 from .models import Thread, ChatMessage
 
 class ChatConsumer(AsyncConsumer):
-    async def websocket_connect(self,event):
-        print("connected to messaage consumer",event)
+    async def websocket_connect(self, event):
+        print("-------connected to messaage consumer",event)
         await self.send({
             "type":"websocket.accept"
         })
@@ -18,13 +18,14 @@ class ChatConsumer(AsyncConsumer):
         # await asyncio.sleep(30)
 
     @database_sync_to_async
-    def get_messages(self, user,chatWith):
+    def get_messages(self, user, chatWith):
         messages = Message.objects.get_or_new(user,chatWith)[0]
         return message
 
     async def websocket_receive(self,event):
             # print("recieve",event)
             msgText = event.get('text',None)
+            print("---------------Received : ", msgText)
             if msgText is not None:
                 text = json.loads(msgText)
                 messageText = text.get('message')

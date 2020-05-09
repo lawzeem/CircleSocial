@@ -14,8 +14,8 @@ from django.db import models
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from cse312.message.utils import broadcast_msg_to_chat 
-
+from cse312.message.utils import broadcast_msg_to_chat
+from cse312.users.models import User
 
 class ThreadManager(models.Manager):
     def by_user(self, user):
@@ -25,27 +25,31 @@ class ThreadManager(models.Manager):
         return qs
 
     def get_or_new(self, user, other_username): # get_or_create
-        username = user.username
-        if username == other_username:
+        print("-------------------------------- In Get or Create ------------------------")
+        # username = user.get_user_name
+        # other = User.objects.
+        if user == other_username:
             return None
-        qlookup1 = Q(first__username=username) & Q(second__username=other_username)
-        qlookup2 = Q(first__username=other_username) & Q(second__username=username)
-        qs = self.get_queryset().filter(qlookup1 | qlookup2).distinct()
+        # qlookup1 = Q(first__user_name__iexact=username) & Q(second__user_name__iexact=other_username)
+        # qlookup2 = Q(first__user_name__iexact=other_username) & Q(second__user_name__iexact=username)
+        thread = Thread.objects.filter((Q(first=user) & Q(second=other_username)) | (Q(first=other_username) & Q(second=user)))
+        print("Threads foundL --------------------------------- : ", thread)
+        qs = thread.distinct()
         if qs.count() == 1:
             return qs.first(), False
         elif qs.count() > 1:
             return qs.order_by('timestamp').first(), False
         else:
-            Klass = user.__class__
-            user2 = Klass.objects.get(username=other_username)
-            if user != user2:
+            # Klass = user.__class__
+            # user2 = User.objects.get(user_name=username)
+            if user != user_name:
                 obj = self.model(
-                        first=user, 
-                        second=user2
+                        first=user,
+                        second=user_name
                     )
                 obj.save()
                 return obj, True
-            return None, False
+        return None, False
 
 
 class Thread(models.Model):
@@ -53,7 +57,7 @@ class Thread(models.Model):
     second       = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_thread_second')
     updated      = models.DateTimeField(auto_now=True)
     timestamp    = models.DateTimeField(auto_now_add=True)
-    
+
     objects      = ThreadManager()
 
     @property

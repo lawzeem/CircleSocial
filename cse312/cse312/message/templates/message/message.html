@@ -5,13 +5,6 @@
 {% block title %}Message{% endblock %}
 
 {% block body %}
-<ul id='message-items'>
-{% for message in object.ChatMessage_set.all %}
-
-<li>{{ message.message }} via {{ message.user }}</li>
-
-{% endfor %}
-</ul>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container row">
       <br>
@@ -21,22 +14,23 @@
         <!-- <br><br><br><br><br><br><br><br><br><br><br><br> -->
         <div class="row">
           <div class="row center col s12">
+            <ul id='message-items'>
+              {% for message in messages %}
+              <li>
+                {{ message.user.get_user_name }} : {{ message.message }}
+              </li>
+              {% endfor %}
+            </ul>
             <div class="row">
               <div class="row center col s9 offset-s1">
                 <div>
-                  <form id='form' method='POST'> {% csrf_token %}
-                    {% for message in object.ChatMessage_set.all %}
-
-                    <li>{{ message.message }} via {{ message.user }}</li>
-
-                    {% endfor %}
+                  <form id='form' method='POST'>
+                    {% csrf_token %}
                     <input type="text" name="message" class="form-control" required="" id="id_message">
-                    
+
                     <input id="message" placeholder="Type A Message" type='submit' class='btn btn-primary'/>
                   </form>
-                </div>  
-
-
+                </div>
                 <!-- <input id="message" placeholder="Type A Message" class="validate"> -->
               </div>
               <div class="row center col s1">

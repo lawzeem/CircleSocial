@@ -5,6 +5,7 @@
 #     return render(request, 'message/message.html');
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse
@@ -14,7 +15,7 @@ from django.views.generic import DetailView, ListView
 
 from .forms import ComposeForm
 from .models import Thread, ChatMessage
-
+from cse312.users.models import User
 
 class InboxView(LoginRequiredMixin, ListView):
     template_name = 'message/message.html'
@@ -23,7 +24,7 @@ class InboxView(LoginRequiredMixin, ListView):
 
 
 class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
-    template_name = 'message/thread.html'
+    template_name = 'message/message.html'
     form_class = ComposeForm
     success_url = './'
 
@@ -59,4 +60,15 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
         ChatMessage.objects.create(user=user, thread=thread, message=message)
         return super().form_valid(form)
 
-
+@login_required
+def GetThread(request, username):
+    print("-----------------In Get Thread-----------------")
+    other_username  = User.objects.get(user_name=username)
+    obj, created = Thread.objects.get_or_new(request.user, other_username)
+    if obj == None:
+        raise Http404
+    print("-----------------Out of Get Thread-----------------")
+    messages = ChatMessage.objects.filter(thread=obj)
+    args = {'thread':obj, 'messages':messages}
+    return render(request, 'message/message.html', args)
+    # return obj

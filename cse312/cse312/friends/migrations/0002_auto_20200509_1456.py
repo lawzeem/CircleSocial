@@ -11,13 +11,18 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('profile', '0001_initial'),
+        ('friends', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
+            model_name='friend',
+            name='current_user',
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='owner', to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='friend',
             name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
         ),
     ]
