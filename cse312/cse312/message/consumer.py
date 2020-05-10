@@ -95,4 +95,4 @@ class ChatConsumer(AsyncConsumer):
 
     async def websocket_disconnect(self,event):
         print("Disconnected",event)
-        raise StopConsumer()
+        # raise StopConsumer()

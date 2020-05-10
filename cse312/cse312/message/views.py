@@ -63,6 +63,7 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
 @login_required
 def GetThread(request, username):
     other_user  = User.objects.get(id=username)
+    user_name = other_user.get_user_name
     obj, created = Thread.objects.get_or_new(request.user, other_user)
     if obj == None:
         raise Http404
@@ -71,7 +72,8 @@ def GetThread(request, username):
     args = {
     'thread':obj,
     'messages':messages,
-    'form':form
+    'form':form,
+    'user_name':user_name
     }
     if request.method == 'POST':
         if form.is_valid():

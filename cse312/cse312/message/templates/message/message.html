@@ -8,11 +8,11 @@
   <div class="section no-pad-bot" id="index-banner">
     <div class="container row">
       <br>
-      <div class="card row col m10 offset-m1 s12">
-        <h1 class="header center black-text">Message</h1>
+      <div class="card row col l10 offset-l1 s12">
+        <h2 class="header center black-text">Message {{ user_name }}</h2>
         <div class="row">
-          <div class="row center col s12">
-            <ul id='message-items'>
+          <div class="row col l12">
+            <ul class= "row  col s10 offset-s1"  id='message-items'>
               {% for message in messages %}
               <li >
                 <h5 class="user">
@@ -25,7 +25,7 @@
               {% endfor %}
             </ul>
             <div class="row">
-              <div class="row center col s9 offset-s1">
+              <div class="row center col l10 offset-l1">
                 <div>
                   <form id='form' method='POST'>
                     {% csrf_token %}
@@ -37,7 +37,7 @@
                     {% endfor %}
                     <!-- <h6> {{field.label}}</h6>
                     {{ form }} -->
-                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Send</button>
+                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Post</button>
                   </form>
                 </div>
               </div>
@@ -76,8 +76,6 @@
   socket.onmessage = function(e){
     console.log("message",e)
     var recv = JSON.parse(e.data)
-    var msg = recv.message
-    msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var toAdd = '<li><h5 class="user">' + recv.sender + ' : </h5><h5 class="btn-small waves-light blue rounded-button disable" >' + msg + "</h5></li>"
     document.getElementById("message-items").innerHTML+=toAdd
   }
