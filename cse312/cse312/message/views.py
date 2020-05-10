@@ -62,8 +62,8 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
 
 @login_required
 def GetThread(request, username):
-    other_username  = User.objects.get(user_name=username)
-    obj, created = Thread.objects.get_or_new(request.user, other_username)
+    other_user  = User.objects.get(id=username)
+    obj, created = Thread.objects.get_or_new(request.user, other_user)
     if obj == None:
         raise Http404
     messages = ChatMessage.objects.filter(thread=obj)

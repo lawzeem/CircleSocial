@@ -16,7 +16,7 @@ class ChatConsumer(AsyncConsumer):
         thread = await self.get_thread(user, chatWith)
         thread_group = f"Thread_{thread.id}"
         self.thread_group = thread_group
-        
+
         await self.channel_layer.group_add(
             thread_group,
             self.channel_name
@@ -24,10 +24,6 @@ class ChatConsumer(AsyncConsumer):
         await self.send({
             "type":"websocket.accept"
         })
-        # print("connection successful")
-        # message = sync_to_async(self.get_messages)(thread)
-        # print("---------------------------------------- message: ", message)
-        # # await asyncio.sleep(30)
 
     @database_sync_to_async
     def get_messages(self, thread):
@@ -36,9 +32,8 @@ class ChatConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def get_thread(self, user, chatWith):
-        other_user = User.objects.get(user_name=chatWith)
+        other_user = User.objects.get(id=chatWith)
         thread = Thread.objects.get_or_new(user, other_user)[0]
-        # print("---------------------------------------- thread: ", thread)
         return thread
 
     async def websocket_receive(self,event):
@@ -46,9 +41,7 @@ class ChatConsumer(AsyncConsumer):
         user = self.scope['user']
         thread = await self.get_thread(user, chatWith)
         message = json.loads(event.get('text'))
-        print("================== message: ", message)
-            # msgText = event.get('text',None)
-        # print("---------------Received : ", msgText)
+
         if message != "":
             await self.new_message(thread, message)
 
