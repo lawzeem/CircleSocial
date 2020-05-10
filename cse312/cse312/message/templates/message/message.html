@@ -11,21 +11,21 @@
       <div class="card row col m10 offset-m1 s12">
         <h1 class="header center black-text">Message</h1>
         <div class="row">
-          <div class="row center col s12">
-            <ul id='message-items'>
+          <div class="row col s12">
+            <ul  class= "row col s10 offset-s1" id='message-items'>
               {% for message in messages %}
               <li >
                 <h5 class="user">
                   {{ message.user.get_user_name }}:
                 </h5>
-                <h5 class="btn-small waves-light blue rounded-button disable" >
+                <h5 class="btn-small waves-light blue rounded-button disable">
                   {{ message.message }}
                 </h5>
               </li>
               {% endfor %}
             </ul>
             <div class="row">
-              <div class="row center col s9 offset-s1">
+              <div class="row center col s10 offset-s1">
                 <div>
                   <form id='form' method='POST'>
                     {% csrf_token %}
@@ -35,8 +35,6 @@
                           {{ field }}
                       </h5>
                     {% endfor %}
-                    <!-- <h6> {{field.label}}</h6>
-                    {{ form }} -->
                     <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Send</button>
                   </form>
                 </div>
