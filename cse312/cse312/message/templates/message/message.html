@@ -9,13 +9,18 @@
     <div class="container row">
       <br>
       <div class="card row col m10 offset-m1 s12">
-        <h1 class="header center black-text">Message</h1>
+        <h2 class="header center black-text">Messages</h2>
         <div class="row">
-          <div class="row center col s12">
-            <ul id='message-items'>
+          <div class="row col s12">
+            <ul class= "row  col s9 offset-s1"  id='message-items'>
               {% for message in messages %}
-              <li>
-                {{ message.user.get_user_name }} : {{ message.message }}
+              <li > 
+                <h5 class="user">
+                  {{ message.user.get_user_name }}:
+                </h5>
+                <h5 class="btn-small waves-light blue rounded-button disable" >
+                  {{ message.message }}
+                </h5>
               </li>
               {% endfor %}
             </ul>
@@ -24,8 +29,15 @@
                 <div>
                   <form id='form' method='POST'>
                     {% csrf_token %}
-                    {{ form }}
-                    <button class="btn-small rounded-button waves-effect waves-light blue" type="submit" name="button">Post</button>
+                    {% for field in form %}
+                      <h5>
+                          <h6 class="mylabel">{{ field.label }}</h6>
+                          {{ field }}
+                      </h5>
+                    {% endfor %}
+                    <!-- <h6> {{field.label}}</h6>
+                    {{ form }} -->
+                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Post</button>
                   </form>
                 </div>
               </div>
