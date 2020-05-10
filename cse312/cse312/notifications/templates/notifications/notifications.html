@@ -20,8 +20,19 @@
                       <img src="{{ messages.user.profile.image.url }}" alt="{{ messages.user.get_first_name }} Profile Picture" class="rounded-circle-small">
                     </div>
                     <div class="center col m8">
-                      {{ messages.get_message.message }}
-                      {{ messages.get_message.thread.id }}
+                      <a href="{% url 'message:showMessage' username=messages.get_message.user.id %}" class="nav-link">
+                        <ul>
+                          <li>
+                            <h5 class="white-text center">{{ messages.get_message.user.get_user_name }}</h5>
+                          </li>
+                          <li>
+                            <h5 class="white-text center">{{ messages.get_message.message|truncatechars:15 }}</h5>
+                          </li>
+                        </ul>
+                      </a>
+                    </div>
+                    <div class="center col m2">
+                      <i class="large material-icons"><a href="{% url 'notifications:editNotifications' operation='remove' messageID=messages.get_message.id %}">drafts</a></i>
                     </div>
                   </div>
                 </div>
