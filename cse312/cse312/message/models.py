@@ -32,8 +32,8 @@ class ThreadManager(models.Manager):
         qs = thread.distinct()
         if qs.count() == 1:
             return qs.first(), False
-        # elif qs.count() > 1:
-        #     return qs.order_by('timestamp').first(), False
+        elif qs.count() > 1:
+            return qs.order_by('timestamp').first(), False
         else:
             if user != other_username:
                 obj = self.model(
@@ -49,7 +49,7 @@ class Thread(models.Model):
     first        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_thread_first')
     second       = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_thread_second')
     updated      = models.DateTimeField(auto_now=True)
-    # timestamp    = models.DateTimeField(auto_now_add=True)
+    timestamp    = models.DateTimeField(auto_now_add=True)
 
     objects      = ThreadManager()
 
@@ -68,4 +68,4 @@ class ChatMessage(models.Model):
     thread      = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL)
     user        = models.ForeignKey(User, verbose_name='sender', on_delete=models.CASCADE)
     message     = models.TextField()
-    # timestamp   = models.DateTimeField(auto_now_add=True)
+    timestamp   = models.DateTimeField(auto_now_add=True)

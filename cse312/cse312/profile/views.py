@@ -35,9 +35,9 @@ def GetProfile(request, username):
         profile = Profile.objects.get(user=user)
 
         # Use in postgres
-        friends = Friend.objects.filter(current_user=request.user)[0].user.all()
+        # friends = Friend.objects.filter(current_user=request.user)[0].user.all()
         # Use in sqlite
-        # friends = Friend.objects.filter(current_user=request.user)
+        friends = Friend.objects.filter(current_user=request.user)
 
         posts = Post.objects.filter(user=user).order_by('-id')
 
