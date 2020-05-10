@@ -64,7 +64,9 @@
   socket.onmessage = function(e){
     console.log("message",e)
     var recv = JSON.parse(e.data)
-    var toAdd = "<li>" + recv.sender + " : " + recv.message + "</li>"
+    var msg = recv.message
+    msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var toAdd = "<li>" + recv.sender + " : " + msg + "</li>"
     document.getElementById("message-items").innerHTML+=toAdd
   }
 
