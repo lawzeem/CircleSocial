@@ -26,7 +26,7 @@ SECRET_KEY = 'bzkblhhoeubiqnn@e2=i_%r3=xt-n)ftsz2z^(+mopc$tx^*ca'
 DEBUG = True
 
 # Setting a Docker Variable for DB Testing
-DOCKER = False
+DOCKER = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
