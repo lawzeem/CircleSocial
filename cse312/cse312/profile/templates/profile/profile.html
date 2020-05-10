@@ -6,28 +6,28 @@
 
 {% block body %}
   <div class="row">
-    <div id= "profile_pane" class="col s12 m3 offset-m1 center">
+    <div id= "profile_pane" class="col s12 l3 offset-l1 center">
       <div class="row">
-        <h3 class="white-text col s10 m10 center offset-s1">{{ user.get_full_name }}</h3>
-        <div class="image-cropper  col m8 offset-m1 s12">
+        <h3 class="white-text col s10 l10 center offset-s1">{{ user.get_full_name }}</h3>
+        <div>
           <img src="{{ user.profile.image.url }}" alt="{{ user.get_first_name }} Profile Picture" class="rounded-circle">
         </div>
         <div class="row center">
-          <h5 class="white-text center offset-s2 col s8 m10">@{{ user.get_user_name }}</h5>
+          <h5 class="white-text center offset-s2 col s8 l10">@{{ user.get_user_name }}</h5>
         </div>
         <div class="row center">
-          <a href="{% url 'editProfile' %}" class="btn-large rounded-button waves-effect waves-light blue col l6 offset-l2 s6 offset-s3">Edit</a>
+          <a href="{% url 'editProfile' %}" class="btn-large rounded-button waves-effect waves-light blue col l6 offset-l2 s6 offset-s3">Edit Profile</a>
         </div>
         <div class="row center">
           <a href="{% url 'makePost' %}" class="btn-large rounded-button waves-effect waves-light blue col l6 offset-l2 s6 offset-s3">Add Post</a>
         </div>
         <div class="row center">
-          <p class="white-text center offset-s2 col s8 m10">{{ user.profile.bio }}</p>
+          <p class="white-text center offset-s2 col s8 l10">{{ user.profile.bio }}</p>
         </div>
       </div>
     </div>
     <!-- Posts Pane -->
-    <div class="col m7 s12">
+    <div class="col l7 s12">
         <h4 class="white-text center">Posts</h4>
         {% if posts %}
           <div class="center row card-feed">

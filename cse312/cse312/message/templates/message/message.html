@@ -10,15 +10,34 @@
       <br>
       <div class="card row col m10 offset-m1 s12">
         <h1 class="header center black-text">Message</h1>
-        <br><br><br><br><br><br><br><br><br><br><br><br>
         <div class="row">
-          <div class="row center col s12">
+          <div class="row col s12">
+            <ul  class= "row col s10 offset-s1" id='message-items'>
+              {% for message in messages %}
+              <li >
+                <h5 class="user">
+                  {{ message.user.get_user_name }}:
+                </h5>
+                <h5 class="btn-small waves-light blue rounded-button disable">
+                  {{ message.message }}
+                </h5>
+              </li>
+              {% endfor %}
+            </ul>
             <div class="row">
-              <div class="row center col s9 offset-s1">
-                <input id="message" placeholder="Type A Message" class="validate">
-              </div>
-              <div class="row center col s1">
-                <a href="#" id="button" class="btn-floating waves-effect waves-light blue"><i class="material-icons right">send</i></a>
+              <div class="row center col s10 offset-s1">
+                <div>
+                  <form id='form' method='POST'>
+                    {% csrf_token %}
+                    {% for field in form %}
+                      <h5>
+                          <h6 class="mylabel">{{ field.label }}</h6>
+                          {{ field }}
+                      </h5>
+                    {% endfor %}
+                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Send</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -26,4 +45,47 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+<script type="text/javascript">
+  var loc = window.location
+  var ws = 'ws://'
+  if(loc.protocol == 'https'){
+    ws = 'wss://'
+  }
+  var endPoint = ws + loc.host + loc.pathname
+  var socket = new ReconnectingWebSocket(endPoint)
+  var f = $("form")
+  var message = $("textarea[name=message]")
+
+  socket.onopen = function(e){
+    console.log("open",e)
+    f.submit(function(event){
+      event.preventDefault()
+      var msg = message.get(0).value
+      console.log("message :", msg)
+      socket.send(JSON.stringify(msg))
+      message.get(0).value = ""
+    })
+  }
+
+  socket.onmessage = function(e){
+    console.log("message",e)
+    var recv = JSON.parse(e.data)
+    var msg = recv.message
+    msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var toAdd = '<li><h5 class="user">' + recv.sender + ' : </h5><h5 class="btn-small waves-light blue rounded-button disable" >' + msg + "</h5></li>"
+    document.getElementById("message-items").innerHTML+=toAdd
+  }
+
+  socket.onerror = function(e){
+    console.log("error",e)
+  }
+  socket.onclose = function(e){
+    console.log("close",e)
+  }
+
+</script>
 {% endblock %}

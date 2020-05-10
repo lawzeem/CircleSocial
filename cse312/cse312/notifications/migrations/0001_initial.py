@@ -8,13 +8,15 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('message', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Friend',
+            name='Notifications',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('message', models.ManyToManyField(to='message.ChatMessage')),
             ],
         ),
     ]

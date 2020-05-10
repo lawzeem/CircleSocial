@@ -3,6 +3,7 @@ import json
 from cse312.users.models import User
 from .models import Post, Comments
 from cse312.users.models import User
+from cse312.friends.models import Friend
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 from asgiref.sync import sync_to_async, async_to_sync
@@ -25,20 +26,22 @@ class PostConsumer(AsyncConsumer):
         })
 
     async def websocket_receive(self, event):
-        condition = event.get('text')
+        userID = event.get('text')
+        # print("--------------------------------- Condition: ", userID)
         await asyncio.sleep(2)
 
         posts = await database_sync_to_async(self.get_posts)()
 
         user = self.scope['user']
         mypost = posts[0]
-
+        # isFriend = await database_sync_to_async(self.check_friends)(int(userID))
         posdat = {
             "id": mypost.id,
             "title": mypost.title,
             "url": mypost.image.url,
             "desc": mypost.description,
             "username": user.user_name
+            # "follow": isFriend
         }
         print("Received in PostConsumer", event)
         new_event = {
@@ -49,7 +52,8 @@ class PostConsumer(AsyncConsumer):
             self.feed_group,
             {
                 "type":"send_post",
-                "text":json.dumps(posdat)
+                "text":json.dumps(posdat),
+                "userid": user.id
             }
         )
         print("Sent Posts")
@@ -59,10 +63,16 @@ class PostConsumer(AsyncConsumer):
         return p
 
     async def send_post(self, event):
-        print("Messsage", event)
+        # print("Messsage", event)
+        loggedUser = self.scope['user']
+        postUser = int(event["userid"])
+        isFriend = await database_sync_to_async(self.check_friends)(loggedUser, postUser)
+        myDump = eval(event["text"])
+        myDump["follow"] = str(isFriend)
+        myDump = json.dumps(myDump)
         await self.send({
             "type":"websocket.send",
-            "text":event['text']
+            "text":myDump
         })
 
     async def websocket_disconnect(self, event):
@@ -76,6 +86,20 @@ class PostConsumer(AsyncConsumer):
 
     def get_users(self):
         return list(User.objects.all().order_by('-id'))
+
+    def check_friends(self, loggedUser, postUser):
+        user = loggedUser
+        friends = Friend.objects.filter(current_user=user)
+        postMaker = User.objects.filter(id = postUser)[0]
+        # print("Cur User: ", user, " Post Maker: ", postMaker, " Maker ID: ", postUser)
+        try:
+            friend = friends[0].user.all()
+            if postMaker in friend:
+                return True
+            else:
+                return False
+        except:
+            return False
 
 class CommentConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
@@ -98,7 +122,7 @@ class CommentConsumer(AsyncConsumer):
         post_id = self.scope['url_route']['kwargs']['post_id']
         post = await self.get_post(post_id)
         # print("Username: ", user.user_name)
-        print("Message in Comment", event)
+        # print("Message in Comment", event)
         if(comment=="Upvote"):
             upvotes = await self.get_upvotes(post)
             print("Found an Upvote")
@@ -199,10 +223,6 @@ class UpvoteConsumer(AsyncConsumer):
         if(user in upvotes):
             voted = True
 
-        # payload = {
-        #     "username":user.user_name,
-        #     "upvote":voted
-        # }
         new_event = {
             "type":"websocket.send",
             "text":voted
@@ -212,10 +232,6 @@ class UpvoteConsumer(AsyncConsumer):
             "comment": voted
         }
 
-        # await self.send({
-        #     "type":"websocket.accept",
-        #     "text":"hello"
-        # })
         await self.channel_layer.group_send(
             self.post_group,
             {
@@ -245,25 +261,4 @@ class UpvoteConsumer(AsyncConsumer):
 
     async def websocket_disconnect(self, event):
         print("Disconnected", event)
-    # async def websocket_receive(self, event):
-    #     comment = event.get('text')
-    #     user = self.scope['user']
-    #     post_id = self.scope['url_route']['kwargs']['post_id']
-    #     post = await self.get_post(post_id)
-    #     print("Message in Upvote", event)
-    #     await self.make_comment(post, user, comment)
-    #     response = {
-    #         "username": user.user_name,
-    #         "comment": comment
-    #     }
-    #     new_event = {
-    #         "type":"websocket.send",
-    #         "text":comment
-    #     }
-    #     await self.channel_layer.group_send(
-    #         self.post_group,
-    #         {
-    #             "type":"post_comment",
-    #             "text":json.dumps(response)
-    #         }
-    #     )
+        

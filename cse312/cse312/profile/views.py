@@ -31,7 +31,7 @@ def EditProfileView(request):
 def GetProfile(request, username):
     try:
         user = User.objects.get(user_name=username)
-        print("Found User")
+        # print("Found User")
         profile = Profile.objects.get(user=user)
 
         # Use in postgres

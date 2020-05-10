@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('cse312.users.urls')),
     path('friends/', include('cse312.friends.urls')),
+    path('notifications/', include('cse312.notifications.urls')),
     path('message/', include('cse312.message.urls')),
     path('profile/', include('cse312.profile.urls')),
     path('', include('cse312.feed.urls')),

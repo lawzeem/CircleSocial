@@ -2,13 +2,13 @@
 
 {% load static %}
 
-{% block title %}Feed{% endblock %}
+{% block title %}My Feed{% endblock %}
 
 {% block body %}
   <div class="container row">
     <br>
     <div class="card row col m12 s12">
-      <h1 class="header center black-text">Feed</h1>
+      <h1 class="header center black-text">My Feed</h1>
         <div class="row" id="feed">
           {% if posts %}
             {% for post in posts %}
@@ -54,18 +54,22 @@
     var f = $("feed")
 
     socket.onmessage = function(e){
-      // console.log("Here:  ", e)
       var recv = JSON.parse(e.data)
-      console.log(recv)
+      // console.log(recv)
       var title = String(recv.title)
       var username = String(recv.username)
       var desc = String(recv.desc)
       var imgUrl = String(recv.url)
       var id = String(recv.id)
+      console.log(recv.follow);
       var content = addPost(id, username, imgUrl, desc, title)
-      document.getElementById("feed").innerHTML = content + document.getElementById("feed").innerHTML
+      var follow = String(recv.follow)
+      if(follow=="True"){
+        document.getElementById("feed").innerHTML = content + document.getElementById("feed").innerHTML
+      }
       console.log("Message", e)
     }
+    
     socket.onopen = function(e){
       console.log("Open", e)
     }
