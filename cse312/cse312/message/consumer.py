@@ -8,6 +8,9 @@ from asgiref.sync import sync_to_async, async_to_sync
 from .models import Thread, ChatMessage
 from cse312.users.models import User
 
+from cse312.notifications.views import get_all_logged_in_users
+from cse312.notifications.models import Notifications
+
 class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
         print("Connected", event)
@@ -42,8 +45,14 @@ class ChatConsumer(AsyncConsumer):
         thread = await self.get_thread(user, chatWith)
         message = json.loads(event.get('text'))
 
+        mg = ""
         if message != "":
-            await self.new_message(thread, message)
+            mg = await self.new_message(thread, message)
+
+            active = await self.user_active(chatWith)
+
+            if not active:
+                await self.new_notification(chatWith, mg)
 
         response = {
             "msgType" : "Message",
@@ -67,9 +76,22 @@ class ChatConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def new_message(self, thread, message):
-        user = user = self.scope['user']
+        user = self.scope['user']
         return ChatMessage.objects.create(thread = thread, user = user, message = message)
 
+    @database_sync_to_async
+    def new_notification(self, user, message):
+        user = User.objects.get(id=user)
+        return Notifications.add(user, message.user, message)
+
+    @database_sync_to_async
+    def user_active(self, user):
+        user = User.objects.get(id=user)
+        users = get_all_logged_in_users()
+        if user in users:
+            return True
+        else:
+            return False
 
     async def websocket_disconnect(self,event):
         print("Disconnected",event)

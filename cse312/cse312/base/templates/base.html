@@ -32,6 +32,14 @@
         {% if user.is_authenticated %}
           {% block navfull %}{% endblock %}
           <li><a href="{% url 'showFollowingFeed' %}">My Feed</a></li>
+          <li>
+            <a href="{% url 'notifications:showNotifications' %}">
+              Notifications
+              {% if user.profile.get_notification_count > 0 %}
+                <span class="new badge">{{ user.profile.get_notification_count }}</span>
+              {% endif %}
+            </a>
+          </li>
           <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>
@@ -46,6 +54,7 @@
         {% if user.is_authenticated %}
           {% block navmob %}{% endblock %}
           <li><a href="{% url 'showFollowingFeed' %}">My Feed</a></li>
+          <li><a href="{% url 'notifications:showNotifications' %}">Notifications</a></li>
           <li><a href="{% url 'friends:showFriends' %}">Friends</a></li>
           <li><a href="{% url 'showProfile' %}">My Profile</a></li>
           <li><a href="{% url 'users:logout' %}">Log out</a></li>

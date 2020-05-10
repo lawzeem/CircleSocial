@@ -8,13 +8,19 @@ from django.http import Http404, HttpResponseRedirect
 from .serializer import PostSerializer
 import time
 import operator
+
+def redirFeed(request):
+    posts = Post.objects.all().order_by('-id')
+    args = {'posts' : posts}
+    return redirect(request, 'feed/feed.html', args);
+
 def showFeed(request):
     time.sleep(2)
     posts = Post.objects.all().order_by('-id')
     # p = PostSerializer(posts[0])
     # print("Post Serialized : ", p.data)
     args = {'posts' : posts}
-    return render(request, 'feed/feed.html', args);
+    return render(request, 'feed/feed.html', args)
 
 @login_required
 def showFollowingFeed(request):
@@ -34,7 +40,7 @@ def showFollowingFeed(request):
     # post.objects.order_by('-id')
     post = sorted(post, key=operator.attrgetter('id'), reverse=True)
     args = {'posts' : post, 'friends':friend}
-    return render(request, 'feed/following.html', args);
+    return render(request, 'feed/following.html', args)
 
 @login_required
 def MakePostView(request):
