@@ -14,11 +14,7 @@
           <div class="row center col s12">
             <ul id='message-items'>
               {% for message in messages %}
-              <li>
-                {% if message.user.get_user_name == user.get_user_name %}
-                {% else %}
-                {% endif %}
-
+              <li >
                 <h5 class="user">
                   {{ message.user.get_user_name }}:
                 </h5>
@@ -39,7 +35,9 @@
                           {{ field }}
                       </h5>
                     {% endfor %}
-                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Post</button>
+                    <!-- <h6> {{field.label}}</h6>
+                    {{ form }} -->
+                    <button class="btn-small rounded-button waves-effect waves-light " style= "background-color: darkblue;" type="submit" name="button">Send</button>
                   </form>
                 </div>
               </div>
@@ -80,7 +78,7 @@
     var recv = JSON.parse(e.data)
     var msg = recv.message
     msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var toAdd = "<li><h5 class="user">" + recv.sender + " : </h5>" + msg + "</li>"
+    var toAdd = '<li><h5 class="user">' + recv.sender + ' : </h5><h5 class="btn-small waves-light blue rounded-button disable" >' + msg + "</h5></li>"
     document.getElementById("message-items").innerHTML+=toAdd
   }
 

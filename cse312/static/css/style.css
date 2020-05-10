@@ -5,7 +5,25 @@
  *
  * Made By MaterializeCSS.com
  */
+ .nav{
+   width:100%;
+ }
+ .disable{
+  font-size: 15px;
+  text-align: left;
+  pointer-events: none;
+  display: inline-table;
+  margin-top: -5px;
+  text-transform: initial;
+  margin-bottom: 13px;
+  color:white;
+ }
 
+ .user{
+  font-size: 13px;
+  font-weight: 350;
+  text-transform: uppercase;
+ }
 .icon-block {
   padding: 0 15px;
 }
