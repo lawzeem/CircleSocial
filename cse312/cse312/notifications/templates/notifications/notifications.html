@@ -14,7 +14,7 @@
           <div class="row center col s12">
             {% if notifications %}
               {% for messages in notifications %}
-                <div class="row center col s12 m10 offset-m1">
+                <div class="row center col s12 l10 offset-l1">
                   <div class="card light-blue lighten-4 row">
                     <div class="image-cropper-small col m2 s4">
                       <img src="{{ messages.get_message.user.profile.image.url }}" alt="{{ messages.get_message.user.get_first_name }} Profile Picture" class="rounded-circle-small">
