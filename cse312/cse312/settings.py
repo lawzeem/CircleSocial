@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cse312.profile',
     'cse312.feed',
     'cse312.users',
+    'cse312.notifications',
     'channels'
 ]
 
