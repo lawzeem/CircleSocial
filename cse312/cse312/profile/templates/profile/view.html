@@ -15,9 +15,9 @@
         </div>
         <h5 class="white-text center offset-s2 col s8 l10">@{{ profile.user.get_user_name }}</h5>
         {% if not friends %}
-          <a href="{% url 'friends:editFriends' operation='follow' username=profile.user.get_user_name %}" class="btn-large rounded-button waves-effect waves-light blue offset-s4 offset-m2 col s4 m6">Follow</a>
+          <a href="{% url 'friends:editFriends' operation='follow' username=profile.user.get_user_name %}" class="btn-large rounded-button waves-effect waves-light blue offset-s4 offset-l2 col s4 l6">Follow</a>
         {% else %}
-          <a href="{% url 'friends:editFriends' operation='unfollow' username=profile.user.get_user_name %}" class="btn-large rounded-button waves-effect waves-light blue offset-s4 offset-m2 col s4 m6">Unfollow</a>
+          <a href="{% url 'friends:editFriends' operation='unfollow' username=profile.user.get_user_name %}" class="btn-large rounded-button waves-effect waves-light blue offset-s4 offset-l2 col s4 l6">Unfollow</a>
         {% endif %}
         <p class="white-text center offset-s2 col s8 l10">{{ profile.bio }}</p>
       </div>
