@@ -27,7 +27,7 @@ class PostConsumer(AsyncConsumer):
 
     async def websocket_receive(self, event):
         userID = event.get('text')
-        print("--------------------------------- Cindition: ", userID)
+        # print("--------------------------------- Condition: ", userID)
         await asyncio.sleep(2)
 
         posts = await database_sync_to_async(self.get_posts)()
@@ -122,7 +122,7 @@ class CommentConsumer(AsyncConsumer):
         post_id = self.scope['url_route']['kwargs']['post_id']
         post = await self.get_post(post_id)
         # print("Username: ", user.user_name)
-        print("Message in Comment", event)
+        # print("Message in Comment", event)
         if(comment=="Upvote"):
             upvotes = await self.get_upvotes(post)
             print("Found an Upvote")
@@ -223,10 +223,6 @@ class UpvoteConsumer(AsyncConsumer):
         if(user in upvotes):
             voted = True
 
-        # payload = {
-        #     "username":user.user_name,
-        #     "upvote":voted
-        # }
         new_event = {
             "type":"websocket.send",
             "text":voted
@@ -236,10 +232,6 @@ class UpvoteConsumer(AsyncConsumer):
             "comment": voted
         }
 
-        # await self.send({
-        #     "type":"websocket.accept",
-        #     "text":"hello"
-        # })
         await self.channel_layer.group_send(
             self.post_group,
             {
@@ -269,25 +261,4 @@ class UpvoteConsumer(AsyncConsumer):
 
     async def websocket_disconnect(self, event):
         print("Disconnected", event)
-    # async def websocket_receive(self, event):
-    #     comment = event.get('text')
-    #     user = self.scope['user']
-    #     post_id = self.scope['url_route']['kwargs']['post_id']
-    #     post = await self.get_post(post_id)
-    #     print("Message in Upvote", event)
-    #     await self.make_comment(post, user, comment)
-    #     response = {
-    #         "username": user.user_name,
-    #         "comment": comment
-    #     }
-    #     new_event = {
-    #         "type":"websocket.send",
-    #         "text":comment
-    #     }
-    #     await self.channel_layer.group_send(
-    #         self.post_group,
-    #         {
-    #             "type":"post_comment",
-    #             "text":json.dumps(response)
-    #         }
-    #     )
+        

@@ -21,8 +21,10 @@ def editFriends(request, username, operation):
     profile = Profile.objects.filter(user=new_friend)
     if operation == "follow":
         Friend.follow(owner, new_friend)
+        Friend.follow(new_friend, owner)
     elif operation == "unfollow":
         Friend.unfollow(owner, new_friend)
+        Friend.unfollow(new_friend, owner)
     else:
         raise Http404
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -12,19 +12,19 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Comments',
+            name='ChatMessage',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('comment', models.CharField(max_length=140, verbose_name='comment')),
+                ('message', models.TextField()),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Post',
+            name='Thread',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='title')),
-                ('image', models.ImageField(default='post/default.jpg', upload_to='post')),
-                ('description', models.CharField(max_length=1000, verbose_name='description')),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

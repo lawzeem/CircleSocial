@@ -2,7 +2,7 @@ from .views import showFeed, showFollowingFeed, MakePostView, ViewPost, UpvotePo
 from django.urls import path
 
 urlpatterns = [
-    path('', showFeed, name='showFeed'),
+    path('feed', showFeed, name='showFeed'),
     path('following', showFollowingFeed, name='showFollowingFeed'),
     path('add', MakePostView, name='makePost'),
     path('view/<int:post_id>', ViewPost, name='viewPost'),
