@@ -62,13 +62,25 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
 
 @login_required
 def GetThread(request, username):
-    print("-----------------In Get Thread-----------------")
     other_username  = User.objects.get(user_name=username)
     obj, created = Thread.objects.get_or_new(request.user, other_username)
     if obj == None:
         raise Http404
-    print("-----------------Out of Get Thread-----------------")
     messages = ChatMessage.objects.filter(thread=obj)
-    args = {'thread':obj, 'messages':messages}
+    form = ComposeForm(request.POST or None)
+    args = {
+    'thread':obj,
+    'messages':messages,
+    'form':form
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            f = form.save(commit = False)
+            f.thread = obj
+            f.user = request.user
+            f.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            form = ComposeForm()
     return render(request, 'message/message.html', args)
     # return obj

@@ -10,7 +10,6 @@
       <br>
       <div class="card row col m10 offset-m1 s12">
         <h1 class="header center black-text">Message</h1>
-        {% csrf_token %}
         <!-- <br><br><br><br><br><br><br><br><br><br><br><br> -->
         <div class="row">
           <div class="row center col s12">
@@ -26,16 +25,17 @@
                 <div>
                   <form id='form' method='POST'>
                     {% csrf_token %}
-                    <input type="text" name="message" class="form-control" required="" id="id_message">
-
-                    <input id="message" placeholder="Type A Message" type='submit' class='btn btn-primary'/>
+                    <!-- <input type="text" name="message" class="form-control" required="" id="id_message"> -->
+                    {{ form }}
+                    <button class="btn-small rounded-button waves-effect waves-light blue" type="submit" name="button">Post</button>
+                    <!-- <input id="message" placeholder="Type A Message" type='submit' class='btn btn-primary'/> -->
                   </form>
                 </div>
                 <!-- <input id="message" placeholder="Type A Message" class="validate"> -->
               </div>
-              <div class="row center col s1">
+              <!-- <div class="row center col s1">
                 <a href="#" id="button" class="btn-floating waves-effect waves-light blue"><i class="material-icons right">send</i></a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -48,34 +48,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
 <script type="text/javascript">
   var loc = window.location
-  var inMess = $("#message")
   var ws = 'ws://'
   if(loc.protocol == 'https'){
     ws = 'wss://'
   }
-
   var endPoint = ws + loc.host + loc.pathname
   var socket = new ReconnectingWebSocket(endPoint)
+  var f = $("form")
+  var message = $("textarea[name=message]")
+  // console.log("Endpoint: ", endPoint)
+
+  socket.onopen = function(e){
+    console.log("open",e)
+    f.submit(function(event){
+      event.preventDefault()
+      var msg = message.get(0).value
+      console.log("message :", msg)
+      socket.send(JSON.stringify(msg))
+      message.get(0).value = ""
+    })
+  }
 
   socket.onmessage = function(e){
     console.log("message",e)
   }
-  socket.onopen = function(e){
-    console.log("open",e)
-    inMess.submit(function(event){
-      event.preventDefault()
-      text = inMess.val()
-      socket.send(JSON.stringify({'message':text}))
-      inMess.val("Type A Message")
-    })
-  }
+
   socket.onerror = function(e){
     console.log("error",e)
   }
   socket.onclose = function(e){
     console.log("close",e)
   }
-
 
 </script>
 {% endblock %}

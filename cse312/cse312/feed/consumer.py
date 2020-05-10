@@ -27,7 +27,7 @@ class PostConsumer(AsyncConsumer):
 
     async def websocket_receive(self, event):
         userID = event.get('text')
-        print("--------------------------------- Cindition: ", userID)
+        # print("--------------------------------- Condition: ", userID)
         await asyncio.sleep(2)
 
         posts = await database_sync_to_async(self.get_posts)()
@@ -122,7 +122,7 @@ class CommentConsumer(AsyncConsumer):
         post_id = self.scope['url_route']['kwargs']['post_id']
         post = await self.get_post(post_id)
         # print("Username: ", user.user_name)
-        print("Message in Comment", event)
+        # print("Message in Comment", event)
         if(comment=="Upvote"):
             upvotes = await self.get_upvotes(post)
             print("Found an Upvote")

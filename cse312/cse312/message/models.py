@@ -24,8 +24,9 @@ class ThreadManager(models.Manager):
         qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
         return qs
 
-    def get_or_new(self, user, other_username): # get_or_create
-        print("-------------------------------- In Get or Create ------------------------")
+    # Returns the thread between user and other user
+    def get_or_new(self, user, other_username):
+        print("///////////////////////////////// get or new /////////////////////////////////")
         # username = user.get_user_name
         # other = User.objects.
         if user == other_username:
@@ -33,7 +34,6 @@ class ThreadManager(models.Manager):
         # qlookup1 = Q(first__user_name__iexact=username) & Q(second__user_name__iexact=other_username)
         # qlookup2 = Q(first__user_name__iexact=other_username) & Q(second__user_name__iexact=username)
         thread = Thread.objects.filter((Q(first=user) & Q(second=other_username)) | (Q(first=other_username) & Q(second=user)))
-        print("Threads foundL --------------------------------- : ", thread)
         qs = thread.distinct()
         if qs.count() == 1:
             return qs.first(), False
@@ -42,10 +42,10 @@ class ThreadManager(models.Manager):
         else:
             # Klass = user.__class__
             # user2 = User.objects.get(user_name=username)
-            if user != user_name:
+            if user != other_username:
                 obj = self.model(
                         first=user,
-                        second=user_name
+                        second=other_username
                     )
                 obj.save()
                 return obj, True
