@@ -1,5 +1,5 @@
-# CSE312Project
-Github repo for CSE312 Project
+# Circle Social
+Github repo for a photo sharing social media
 
 #### Django Instructions ####
 This project is built in Django with Materialize CSS.
